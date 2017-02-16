@@ -22,6 +22,8 @@ public class Controleur extends HttpServlet {
     private static final String LISTER_RADHERENT = "listerAdherent";
     private static final String AJOUTER_ADHERENT = "ajouterAdherent";
     private static final String INSERER_ADHERENT = "insererAdherent";
+    private static final String LISTER_OEUVRES_PRETS = "listerOeuvresPrets";
+    private static final String LISTER_OEUVRES_VENTES = "listerOeuvresVentes";
     private static final String ERROR_KEY = "messageErreur";
     private static final String ERROR_PAGE = "/WEB-INF/jsp/adherents/erreur.jsp";
 
@@ -88,13 +90,42 @@ public class Controleur extends HttpServlet {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            destinationPage = "/index.jsp";
+            destinationPage = "/";
         }
 
         else {
             String messageErreur = "[" + actionName + "] n'est pas une action valide.";
             request.setAttribute(ERROR_KEY, messageErreur);
         }
+
+        if (LISTER_OEUVRES_PRETS.equals(actionName)) {
+            try {
+
+                Service unService = new Service();
+                request.setAttribute("mesOeuvresPrets", unService.consulterListeOeuvresPrets());
+
+            } catch (MonException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            destinationPage = "/WEB-INF/jsp/oeuvres/listerOeuvresPrets.jsp";
+        }
+
+        if (LISTER_OEUVRES_VENTES.equals(actionName)) {
+            try {
+
+                Service unService = new Service();
+                request.setAttribute("mesOeuvresVentes", unService.consulterListeOeuvresVentes());
+
+            } catch (MonException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            destinationPage = "/WEB-INF/jsp/oeuvres/listerOeuvresVentes.jsp";
+        }
+
         // Redirection vers la page jsp appropriee
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destinationPage);
         dispatcher.forward(request, response);

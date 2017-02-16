@@ -47,10 +47,10 @@
                 <a href="#"><i class="fa fa-picture-o fa-fw"></i> Oeuvres<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="flot.html">Liste des Oeuvres</a>
+                        <a href="Controleur?action=listerOeuvresPrets">Liste des Oeuvres en prêt</a>
                     </li>
                     <li>
-                        <a href="morris.html">Ajouter une Oeuvre</a>
+                        <a href="Controleur?action=listerOeuvresVentes">Liste des Oeuvres en vente</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

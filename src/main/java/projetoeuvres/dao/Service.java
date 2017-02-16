@@ -2,6 +2,9 @@ package projetoeuvres.dao;
 
 import projetoeuvres.meserreurs.MonException;
 import projetoeuvres.metier.Adherent;
+import projetoeuvres.metier.Oeuvrepret;
+import projetoeuvres.metier.Oeuvrevente;
+import projetoeuvres.metier.Proprietaire;
 import projetoeuvres.persistance.DialogueBd;
 import java.util.*;
 
@@ -26,6 +29,7 @@ public class Service {
 			throw e;
 		}
 	}
+
 
 	// gestion des adherents
 	// Consultation d'un adh�rent par son num�ro
@@ -70,6 +74,82 @@ public class Service {
 			}
 
 			return mesAdherents;
+		} catch (Exception exc) {
+			throw new MonException(exc.getMessage(), "systeme");
+		}
+	}
+
+	// Consultation des adh�rents
+	// Fabrique et renvoie une liste d'objets adh�rent contenant le r�sultat de
+	// la requ�te BDD
+	public List<Oeuvrepret> consulterListeOeuvresPrets() throws MonException {
+		String mysql = "select * from oeuvrepret";
+		return consulterListeOeuvresPrets(mysql);
+	}
+
+	private List<Oeuvrepret> consulterListeOeuvresPrets(String mysql) throws MonException {
+		List<Object> rs;
+		List<Oeuvrepret> mesOeuvresPrets = new ArrayList<Oeuvrepret>();
+		int index = 0;
+		try {
+			rs = DialogueBd.lecture(mysql);
+			while (index < rs.size()) {
+				// On cr�e un stage
+				Oeuvrepret oeuvrePret = new Oeuvrepret();
+				// il faut redecouper la liste pour retrouver les lignes
+				oeuvrePret.setIdOeuvrepret(Integer.parseInt(rs.get(index + 0).toString()));
+				oeuvrePret.setTitreOeuvrepret(rs.get(index + 1).toString());
+				oeuvrePret.setProprietaire(getProprieteaire(Integer.parseInt(rs.get(index + 2).toString())));
+				// On incr�mente tous les 2 champs
+				index = index + 3;
+				mesOeuvresPrets.add(oeuvrePret);
+			}
+
+			return mesOeuvresPrets;
+		} catch (Exception exc) {
+			throw new MonException(exc.getMessage(), "systeme");
+		}
+	}
+
+	public List<Oeuvrevente> consulterListeOeuvresVentes() throws MonException {
+		String mysql = "select * from oeuvrevente";
+		return consulterListeOeuvresVentes(mysql);
+	}
+
+	private List<Oeuvrevente> consulterListeOeuvresVentes(String mysql) throws MonException {
+		List<Object> rs;
+		List<Oeuvrevente> mesOeuvresPrets = new ArrayList<Oeuvrevente>();
+		int index = 0;
+		try {
+			rs = DialogueBd.lecture(mysql);
+			while (index < rs.size()) {
+				// On cr�e un stage
+				Oeuvrevente oeuvreVente = new Oeuvrevente();
+				// il faut redecouper la liste pour retrouver les lignes
+				oeuvreVente.setIdOeuvrevente(Integer.parseInt(rs.get(index + 0).toString()));
+				oeuvreVente.setTitreOeuvrevente(rs.get(index + 1).toString());
+				oeuvreVente.setEtatOeuvrevente(rs.get(index + 2).toString());
+				oeuvreVente.setPrixOeuvrevente(Float.parseFloat(rs.get(index + 3).toString()));
+				oeuvreVente.setProprietaire(getProprieteaire(Integer.parseInt(rs.get(index + 4).toString())));
+				// On incr�mente tous les 2 champs
+				index = index + 5;
+				mesOeuvresPrets.add(oeuvreVente);
+			}
+
+			return mesOeuvresPrets;
+		} catch (Exception exc) {
+			throw new MonException(exc.getMessage(), "systeme");
+		}
+	}
+
+	private Proprietaire getProprieteaire(int id) throws MonException {
+		try {
+			List<Object> rs = DialogueBd.lecture("select * from proprietaire where id_proprietaire="+ id);
+			Proprietaire proprietaire = new Proprietaire();
+			proprietaire.setIdProprietaire(id);
+			proprietaire.setNomProprietaire(rs.get(1).toString());
+			proprietaire.setPrenomProprietaire(rs.get(2).toString());
+			return proprietaire;
 		} catch (Exception exc) {
 			throw new MonException(exc.getMessage(), "systeme");
 		}
