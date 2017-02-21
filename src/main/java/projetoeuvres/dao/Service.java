@@ -141,17 +141,61 @@ public class Service {
 		}
 	}
 
-	private Owner getOwner(int id) throws MyException {
+	public Owner getOwner(int id) throws MyException {
+		String mysql = "select * from proprietaire where id_proprietaire="+ id;
+		List<Owner> owners = getOwners(mysql);
+		if (owners.isEmpty())
+			return null;
+		else {
+			return owners.get(0);
+		}
+	}
+
+	public List<Owner> getOwners() throws MyException {
+		String mysql = "select * from proprietaire";
+		return getOwners(mysql);
+	}
+
+	private List<Owner> getOwners(String mysql) throws MyException {
+		List<Object> rs;
+		List<Owner> owners = new ArrayList<Owner>();
+		int index = 0;
 		try {
-			List<Object> rs = DBAccess.read("select * from proprietaire where id_proprietaire="+ id);
-			Owner proprietaire = new Owner();
-			proprietaire.setId(id);
-			proprietaire.setName(rs.get(1).toString());
-			proprietaire.setFirstName(rs.get(2).toString());
-			return proprietaire;
+			DBAccess dbAccess = DBAccess.getInstance();
+			rs = DBAccess.read(mysql);
+			while (index < rs.size()) {
+				// On cr�e un stage
+				Owner owner = new Owner();
+				// il faut redecouper la liste pour retrouver les lignes
+				owner.setId(Integer.parseInt(rs.get(index + 0).toString()));
+				owner.setName(rs.get(index + 1).toString());
+				owner.setFirstName(rs.get(index + 2).toString());
+				// On incr�mente tous les 3 champs
+				index = index + 3;
+				owners.add(owner);
+			}
+
+			return owners;
 		} catch (Exception exc) {
 			throw new MyException(exc.getMessage(), "systeme");
 		}
 	}
+
+
+	public void insertWorkForSale(WorkForSale workForSale) throws MyException {
+		String mysql;
+
+		DBAccess dbAccess = DBAccess.getInstance();
+		try {
+			mysql = "insert into oeuvrevente  (titre_oeuvrevente,etat_oeuvrevente,prix_oeuvrevente,id_proprietaire)  " + "values ('"
+					+ workForSale.getTitle();
+			mysql += "'" + ",'" + workForSale.getState() + "','" + workForSale.getPrice() + "','" + workForSale.getOwner().getId() + "')";
+
+			dbAccess.insert(mysql);
+		} catch (MyException e) {
+			throw e;
+		}
+	}
+
 
 }
