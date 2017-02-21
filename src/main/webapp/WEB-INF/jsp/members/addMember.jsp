@@ -21,15 +21,15 @@
                                 <form role="form" name='identification' method="post" action="Controller?action=insertMember" onsubmit="return teste()">
                                     <div class="form-group">
                                         <label>Nom de l'adherent</label>
-                                        <input class="form-control" placeholder="Enter text" type="text" name="name" value="" id ="nom">
+                                        <input class="form-control" placeholder="Enter text" type="text" name="name" value="" id ="name">
                                     </div>
                                     <div class="form-group">
                                         <label>Prenom de l'adherent</label>
-                                        <input class="form-control" placeholder="Enter text" type="text" name="firstname" value="" id ="prenom">
+                                        <input class="form-control" placeholder="Enter text" type="text" name="firstname" value="" id ="firstname">
                                     </div>
                                     <div class="form-group">
                                         <label>Ville de l'adherent</label>
-                                        <input class="form-control" placeholder="Enter text" type="text" name="city" value="" id ="ville">
+                                        <input class="form-control" placeholder="Enter text" type="text" name="city" value="" id ="city">
                                     </div>
                                     <div class="form-group">
                                         <input class="btn btn-block btn-primary" type="submit" name="bt" value="Ajouter" >

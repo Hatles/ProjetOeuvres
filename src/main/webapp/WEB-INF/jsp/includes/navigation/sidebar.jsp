@@ -52,6 +52,9 @@
                     <li>
                         <a href="Controller?action=getWorksForSale">Liste des Oeuvres en vente</a>
                     </li>
+                    <li>
+                        <a href="Controller?action=addWorkForSale">Ajouter une oeuvre à vendre</a>
+                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

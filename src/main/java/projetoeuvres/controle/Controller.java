@@ -3,7 +3,7 @@ package projetoeuvres.controle;
 import projetoeuvres.dao.Service;
 import projetoeuvres.meserreurs.MyException;
 import projetoeuvres.metier.Member;
-import projetoeuvres.metier.Member;
+import projetoeuvres.metier.WorkForSale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,8 +25,10 @@ public class Controller extends HttpServlet {
     private static final String INSERT_MEMBER = "insertMember";
     private static final String GET_WORKS_ON_LOAN = "getWorksOnLoan";
     private static final String GET_WORKS_FOR_SALE = "getWorksForSale";
+    private static final String ADD_WORk_FOR_SALE = "addWorkForSale";
+    private static final String INSERT_WORk_FOR_SALE = "insertWorkForSale";
     private static final String ERROR_KEY = "messageErreur";
-    private static final String ERROR_PAGE = "/WEB-INF/jsp/adherents/erreur.jsp";
+    private static final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -125,6 +127,39 @@ public class Controller extends HttpServlet {
             }
 
             destinationPage = "/WEB-INF/jsp/works/getWorksForSale.jsp";
+        }
+
+        if (ADD_WORk_FOR_SALE.equals(actionName)) {
+            try {
+
+                Service service = new Service();
+                request.setAttribute("owners", service.getOwners());
+
+            } catch (MyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            destinationPage = "/WEB-INF/jsp/works/addWorkForSale.jsp";
+        } else if (INSERT_WORk_FOR_SALE.equals(actionName)) {
+            try {
+                Service service = new Service();
+                WorkForSale WorkForSale = new WorkForSale();
+                WorkForSale.setTitle(request.getParameter("title"));
+                WorkForSale.setState(request.getParameter("state"));
+                WorkForSale.setPrice(Float.parseFloat(request.getParameter("price")));
+                WorkForSale.setOwner(service.getOwner(Integer.parseInt(request.getParameter("owner"))));
+                service.insertWorkForSale(WorkForSale);
+
+            } catch (MyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            destinationPage = "/";
+        }
+
+        else {
+            String messageErreur = "[" + actionName + "] n'est pas une action valide.";
+            request.setAttribute(ERROR_KEY, messageErreur);
         }
 
         // Redirection vers la page jsp appropriee

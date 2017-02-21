@@ -31,7 +31,7 @@
 							</div>
 						</div>
 					</div>
-					<a href="Controleur?action=listerAdherent">
+					<a href="Controller?action=getMembers">
 						<div class="panel-footer">
 							<span class="pull-left">Voir Détails</span>
 							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
