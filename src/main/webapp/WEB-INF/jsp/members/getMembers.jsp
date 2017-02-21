@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<jsp:useBean id="mesAdherents" scope="request" type="java.util.ArrayList<projetoeuvres.metier.Adherent>"/>
+<jsp:useBean id="members" scope="request" type="java.util.ArrayList<projetoeuvres.metier.Member>"/>
 
 <t:generic_page>
     <jsp:attribute name="title">
@@ -28,12 +28,12 @@
 						</tr>
 						</thead>
 						<tbody>
-						<c:forEach items="${mesAdherents}" var="item">
+						<c:forEach items="${members}" var="item">
 							<tr>
-								<td>${item.idAdherent}</td>
-								<td>${item.nomAdherent}</td>
-								<td>${item.prenomAdherent}</td>
-								<td>${item.villeAdherent}</td>
+								<td>${item.id}</td>
+								<td>${item.name}</td>
+								<td>${item.firstName}</td>
+								<td>${item.city}</td>
 							</tr>
 						</c:forEach>
 						</tbody>

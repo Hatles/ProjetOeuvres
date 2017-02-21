@@ -1,8 +1,11 @@
 package projetoeuvres.dao;
 
-import projetoeuvres.meserreurs.MonException;
-import projetoeuvres.metier.Adherent;
-import projetoeuvres.persistance.DialogueBd;
+import projetoeuvres.meserreurs.MyException;
+import projetoeuvres.metier.Member;
+import projetoeuvres.metier.Owner;
+import projetoeuvres.metier.WorkForSale;
+import projetoeuvres.metier.WorkOnLoan;
+import projetoeuvres.persistance.DBAccess;
 import java.util.*;
 
 
@@ -12,17 +15,17 @@ public class Service {
 	// Le booleen indique s'il s'agit d'un nouvel adh�rent, auquel cas on fait
 	// une cr�ation
 
-	public void insertAdherent(Adherent unAdherent) throws MonException {
+	public void insertMember(Member member) throws MyException {
 		String mysql;
 
-		DialogueBd unDialogueBd = DialogueBd.getInstance();
+		DBAccess dbAccess = DBAccess.getInstance();
 		try {
 			mysql = "insert into adherent  (nom_adherent,prenom_adherent,ville_adherent)  " + "values ('"
-					+ unAdherent.getNomAdherent();
-			mysql += "'" + ",'" + unAdherent.getPrenomAdherent() + "','" + unAdherent.getVilleAdherent() + "')";
+					+ member.getName();
+			mysql += "'" + ",'" + member.getFirstName() + "','" + member.getCity() + "')";
 
-			unDialogueBd.insertionBD(mysql);
-		} catch (MonException e) {
+			dbAccess.insert(mysql);
+		} catch (MyException e) {
 			throw e;
 		}
 	}
@@ -31,47 +34,123 @@ public class Service {
 	// Consultation d'un adh�rent par son num�ro
 	// Fabrique et renvoie un objet adh�rent contenant le r�sultat de la requ�te
 	// BDD
-	public Adherent consulterAdherent(int numero) throws MonException {
+	public Member getMember(int numero) throws MyException {
 		String mysql = "select * from adherent where numero_adherent=" + numero;
-		List<Adherent> mesAdh = consulterListeAdherents(mysql);
-		if (mesAdh.isEmpty())
+		List<Member> members = getMembers(mysql);
+		if (members.isEmpty())
 			return null;
 		else {
-			return mesAdh.get(0);
+			return members.get(0);
 		}
 	}
 
 	// Consultation des adh�rents
 	// Fabrique et renvoie une liste d'objets adh�rent contenant le r�sultat de
 	// la requ�te BDD
-	public List<Adherent> consulterListeAdherents() throws MonException {
+	public List<Member> getMembers() throws MyException {
 		String mysql = "select * from adherent";
-		return consulterListeAdherents(mysql);
+		return getMembers(mysql);
 	}
 
-	private List<Adherent> consulterListeAdherents(String mysql) throws MonException {
+	private List<Member> getMembers(String mysql) throws MyException {
 		List<Object> rs;
-		List<Adherent> mesAdherents = new ArrayList<Adherent>();
+		List<Member> members = new ArrayList<Member>();
 		int index = 0;
 		try {
-			DialogueBd unDialogueBd = DialogueBd.getInstance();
-			rs = DialogueBd.lecture(mysql);
+			DBAccess dbAccess = DBAccess.getInstance();
+			rs = DBAccess.read(mysql);
 			while (index < rs.size()) {
 				// On cr�e un stage
-				Adherent unA = new Adherent();
+				Member member = new Member();
 				// il faut redecouper la liste pour retrouver les lignes
-				unA.setIdAdherent(Integer.parseInt(rs.get(index + 0).toString()));
-				unA.setNomAdherent(rs.get(index + 1).toString());
-				unA.setPrenomAdherent(rs.get(index + 2).toString());
-				unA.setVilleAdherent(rs.get(index + 3).toString());
+				member.setId(Integer.parseInt(rs.get(index + 0).toString()));
+				member.setName(rs.get(index + 1).toString());
+				member.setFirstName(rs.get(index + 2).toString());
+				member.setCity(rs.get(index + 3).toString());
 				// On incr�mente tous les 3 champs
 				index = index + 4;
-				mesAdherents.add(unA);
+				members.add(member);
 			}
 
-			return mesAdherents;
+			return members;
 		} catch (Exception exc) {
-			throw new MonException(exc.getMessage(), "systeme");
+			throw new MyException(exc.getMessage(), "systeme");
+		}
+	}
+
+	// Consultation des adh�rents
+	// Fabrique et renvoie une liste d'objets adh�rent contenant le r�sultat de
+	// la requ�te BDD
+	public List<WorkOnLoan> getWorksOnLoan() throws MyException {
+		String mysql = "select * from oeuvrepret";
+		return getWorksOnLoan(mysql);
+	}
+
+	private List<WorkOnLoan> getWorksOnLoan(String mysql) throws MyException {
+		List<Object> rs;
+		List<WorkOnLoan> worksOnLoan = new ArrayList<WorkOnLoan>();
+		int index = 0;
+		try {
+			rs = DBAccess.read(mysql);
+			while (index < rs.size()) {
+				// On cr�e un stage
+				WorkOnLoan workOnLoan = new WorkOnLoan();
+				// il faut redecouper la liste pour retrouver les lignes
+				workOnLoan.setId(Integer.parseInt(rs.get(index + 0).toString()));
+				workOnLoan.setTitle(rs.get(index + 1).toString());
+				workOnLoan.setOwner(getOwner(Integer.parseInt(rs.get(index + 2).toString())));
+				// On incr�mente tous les 2 champs
+				index = index + 3;
+				worksOnLoan.add(workOnLoan);
+			}
+
+			return worksOnLoan;
+		} catch (Exception exc) {
+			throw new MyException(exc.getMessage(), "systeme");
+		}
+	}
+
+	public List<WorkForSale> getWorksForSale() throws MyException {
+		String mysql = "select * from oeuvrevente";
+		return getWorksForSale(mysql);
+	}
+
+	private List<WorkForSale> getWorksForSale(String mysql) throws MyException {
+		List<Object> rs;
+		List<WorkForSale> worksForSale = new ArrayList<WorkForSale>();
+		int index = 0;
+		try {
+			rs = DBAccess.read(mysql);
+			while (index < rs.size()) {
+				// On cr�e un stage
+				WorkForSale workForSale = new WorkForSale();
+				// il faut redecouper la liste pour retrouver les lignes
+				workForSale.setId(Integer.parseInt(rs.get(index + 0).toString()));
+				workForSale.setTitle(rs.get(index + 1).toString());
+				workForSale.setState(rs.get(index + 2).toString());
+				workForSale.setPrice(Float.parseFloat(rs.get(index + 3).toString()));
+				workForSale.setOwner(getOwner(Integer.parseInt(rs.get(index + 4).toString())));
+				// On incr�mente tous les 2 champs
+				index = index + 5;
+				worksForSale.add(workForSale);
+			}
+
+			return worksForSale;
+		} catch (Exception exc) {
+			throw new MyException(exc.getMessage(), "systeme");
+		}
+	}
+
+	private Owner getOwner(int id) throws MyException {
+		try {
+			List<Object> rs = DBAccess.read("select * from proprietaire where id_proprietaire="+ id);
+			Owner proprietaire = new Owner();
+			proprietaire.setId(id);
+			proprietaire.setName(rs.get(1).toString());
+			proprietaire.setFirstName(rs.get(2).toString());
+			return proprietaire;
+		} catch (Exception exc) {
+			throw new MyException(exc.getMessage(), "systeme");
 		}
 	}
 

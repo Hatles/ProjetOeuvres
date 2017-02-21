@@ -1,6 +1,6 @@
 package projetoeuvres.persistance;
 
-import projetoeuvres.meserreurs.MonException;
+import projetoeuvres.meserreurs.MyException;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -10,23 +10,23 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Connexion {
+public class DBConnection {
 	private Connection conn = null;
-	private static Connexion instance = null;
+	private static DBConnection instance = null;
 
 	// On utilise un singleton
-	public static Connexion getInstance() {
+	public static DBConnection getInstance() {
 		if (instance == null)
-			instance = new Connexion();
+			instance = new DBConnection();
 		return instance;
 	}
 
 	// on rend le constructeur priv�
 	// pour emp�cher toute cr�ation d'instance
-	private Connexion() {
+	private DBConnection() {
 	}
 
-	public Connection getConnexion() throws MonException {
+	public Connection getConnection() throws MyException {
 		Connection conn = null;
 		try {
 			Context ctxt = new InitialContext();
@@ -37,9 +37,9 @@ public class Connexion {
 			conn = ds.getConnection();
 
 		} catch (SQLException e) {
-			throw new MonException(e.getMessage());
+			throw new MyException(e.getMessage());
 		} catch (Exception e) {
-			throw new MonException(e.getMessage());
+			throw new MyException(e.getMessage());
 		}
 		return conn;
 	}

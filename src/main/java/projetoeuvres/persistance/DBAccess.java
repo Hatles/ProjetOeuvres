@@ -1,29 +1,29 @@
 package projetoeuvres.persistance;
 
-import projetoeuvres.meserreurs.MonException;
+import projetoeuvres.meserreurs.MyException;
 
 import java.sql.*;
 import java.util.*;
 
-public class DialogueBd {
+public class DBAccess {
 
-	private static DialogueBd instance = null;
+	private static DBAccess instance = null;
 
-	public static DialogueBd getInstance() {
+	public static DBAccess getInstance() {
 		if (instance == null) {
-			instance = new DialogueBd();
+			instance = new DBAccess();
 		}
 		return instance;
 	}
 
-	private DialogueBd() {
+	private DBAccess() {
 		super();
 	}
 
-	public void insertionBD(String mysql) throws MonException {
+	public void insert(String mysql) throws MyException {
 		Connection cnx = null;
 		try {
-			cnx = Connexion.getInstance().getConnexion();
+			cnx = DBConnection.getInstance().getConnection();
 			Statement unstatement = cnx.createStatement();
 			unstatement.execute(mysql);
 			// on ferme la connexion
@@ -33,16 +33,16 @@ public class DialogueBd {
 		{
 			System.out.println("Erreur :" + e.getMessage());
 			System.out.println(mysql);
-			new MonException(e.getMessage());
+			new MyException(e.getMessage());
 		}
 
 		catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new MonException(e.getMessage());
+			throw new MyException(e.getMessage());
 		}
 	}
 
-	public static List<Object> lecture(String req) throws MonException {
+	public static List<Object> read(String req) throws MyException {
 		Connection cnx = null;
 		Statement stmt;
 		ResultSet rs;
@@ -51,7 +51,7 @@ public class DialogueBd {
 		int nbCols;
 		try {
 
-			cnx = Connexion.getInstance().getConnexion();
+			cnx = DBConnection.getInstance().getConnection();
 			stmt = cnx.createStatement();
 			stmt.executeQuery("SET NAMES UTF8");
 			// Execution de la requete
@@ -75,10 +75,10 @@ public class DialogueBd {
 			return (mesRes);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			throw new MonException(e.getMessage());
+			throw new MyException(e.getMessage());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new MonException(e.getMessage());
+			throw new MyException(e.getMessage());
 		} finally {
 			// S'il y a eu un probl�me, la connexion
 			// peut �tre encore ouverte, dans ce cas
@@ -92,20 +92,20 @@ public class DialogueBd {
 		}
 	}
 
-	public void execute(String mysql) throws MonException {
+	public void execute(String mysql) throws MyException {
 		Connection cnx = null;
 		try {
-			cnx = Connexion.getInstance().getConnexion();
+			cnx = DBConnection.getInstance().getConnection();
 			Statement unstatement = cnx.createStatement();
 			unstatement.execute(mysql);
 			System.out.println(mysql);
 			// on ferme la connexion
 			cnx.close();
 		} catch (SQLException e) {
-			throw new MonException(e.getMessage());
+			throw new MyException(e.getMessage());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new MonException(e.getMessage());
+			throw new MyException(e.getMessage());
 		}
 	}
 

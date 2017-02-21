@@ -35,10 +35,10 @@
                 <a href="#"><i class="fa fa-users fa-fw"></i> Adhérents<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="Controleur?action=listerAdherent">Liste des Adhérents</a>
+                        <a href="Controller?action=getMembers">Liste des Adhérents</a>
                     </li>
                     <li>
-                        <a href="Controleur?action=ajouterAdherent">Ajouter un Adhérent</a>
+                        <a href="Controller?action=addMember">Ajouter un Adhérent</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -47,10 +47,10 @@
                 <a href="#"><i class="fa fa-picture-o fa-fw"></i> Oeuvres<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="flot.html">Liste des Oeuvres</a>
+                        <a href="Controller?action=getWorksOnLoan">Liste des Oeuvres en prêt</a>
                     </li>
                     <li>
-                        <a href="morris.html">Ajouter une Oeuvre</a>
+                        <a href="Controller?action=getWorksForSale">Liste des Oeuvres en vente</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

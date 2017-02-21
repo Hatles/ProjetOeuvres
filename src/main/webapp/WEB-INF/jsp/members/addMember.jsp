@@ -18,18 +18,18 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <form role="form" name='identification' method="post" action="Controleur?action=insererAdherent" onsubmit="return teste()">
+                                <form role="form" name='identification' method="post" action="Controller?action=insertMember" onsubmit="return teste()">
                                     <div class="form-group">
                                         <label>Nom de l'adherent</label>
-                                        <input class="form-control" placeholder="Enter text" type="text" name="txtnom" value="" id ="nom">
+                                        <input class="form-control" placeholder="Enter text" type="text" name="name" value="" id ="nom">
                                     </div>
                                     <div class="form-group">
                                         <label>Prenom de l'adherent</label>
-                                        <input class="form-control" placeholder="Enter text" type="text" name="txtnom" value="" id ="prenom">
+                                        <input class="form-control" placeholder="Enter text" type="text" name="firstname" value="" id ="prenom">
                                     </div>
                                     <div class="form-group">
                                         <label>Ville de l'adherent</label>
-                                        <input class="form-control" placeholder="Enter text" type="text" name="txtnom" value="" id ="ville">
+                                        <input class="form-control" placeholder="Enter text" type="text" name="city" value="" id ="ville">
                                     </div>
                                     <div class="form-group">
                                         <input class="btn btn-block btn-primary" type="submit" name="bt" value="Ajouter" >

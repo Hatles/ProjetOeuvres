@@ -1,18 +1,18 @@
 package projetoeuvres.meserreurs;
 
-public class MonException  extends Exception  {
+public class MyException extends Exception  {
     private String message;
     private String type;
 
-    public MonException() {
+    public MyException() {
     }
 
-    public MonException( String libelle,  String type) {
+    public MyException(String libelle, String type) {
         this.message = libelle;
         this.type = type;
     }
 
-    public MonException( String libelle) {
+    public MyException(String libelle) {
         this.message = libelle;
        
     }

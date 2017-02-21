@@ -1,8 +1,9 @@
 package projetoeuvres.controle;
 
 import projetoeuvres.dao.Service;
-import projetoeuvres.meserreurs.MonException;
-import projetoeuvres.metier.Adherent;
+import projetoeuvres.meserreurs.MyException;
+import projetoeuvres.metier.Member;
+import projetoeuvres.metier.Member;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,20 +16,22 @@ import java.io.IOException;
 /**
  * Created by kifkif on 08/02/2017.
  */
-@WebServlet(name = "Controleur", urlPatterns = "/Controleur")
-public class Controleur extends HttpServlet {
+@WebServlet(name = "Controller", urlPatterns = "/Controller")
+public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String ACTION_TYPE = "action";
-    private static final String LISTER_RADHERENT = "listerAdherent";
-    private static final String AJOUTER_ADHERENT = "ajouterAdherent";
-    private static final String INSERER_ADHERENT = "insererAdherent";
+    private static final String GET_MEMBERS = "getMembers";
+    private static final String ADD_MEMBER = "addMember";
+    private static final String INSERT_MEMBER = "insertMember";
+    private static final String GET_WORKS_ON_LOAN = "getWorksOnLoan";
+    private static final String GET_WORKS_FOR_SALE = "getWorksForSale";
     private static final String ERROR_KEY = "messageErreur";
     private static final String ERROR_PAGE = "/WEB-INF/jsp/adherents/erreur.jsp";
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Controleur() {
+    public Controller() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -58,43 +61,72 @@ public class Controleur extends HttpServlet {
         String actionName = request.getParameter(ACTION_TYPE);
         String destinationPage = ERROR_PAGE;
         // execute l'action
-        if (LISTER_RADHERENT.equals(actionName)) {
+        if (GET_MEMBERS.equals(actionName)) {
             try {
 
-                Service unService = new Service();
-                request.setAttribute("mesAdherents", unService.consulterListeAdherents());
+                Service service = new Service();
+                request.setAttribute("members", service.getMembers());
 
-            } catch (MonException e) {
+            } catch (MyException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
-            destinationPage = "/WEB-INF/jsp/adherents/listerAdherent.jsp";
+            destinationPage = "/WEB-INF/jsp/members/getMembers.jsp";
         }
 
-        if (AJOUTER_ADHERENT.equals(actionName)) {
+        if (ADD_MEMBER.equals(actionName)) {
 
-            destinationPage = "/WEB-INF/jsp/adherents/ajouterAdherent.jsp";
-        } else if (INSERER_ADHERENT.equals(actionName)) {
+            destinationPage = "/WEB-INF/jsp/members/addMember.jsp";
+        } else if (INSERT_MEMBER.equals(actionName)) {
             try {
-                Adherent unAdherent = new Adherent();
-                unAdherent.setNomAdherent(request.getParameter("txtnom"));
-                unAdherent.setPrenomAdherent(request.getParameter("txtprenom"));
-                unAdherent.setVilleAdherent(request.getParameter("txtville"));
-                Service unService = new Service();
-                unService.insertAdherent(unAdherent);
+                Member member = new Member();
+                member.setName(request.getParameter("name"));
+                member.setFirstName(request.getParameter("firstname"));
+                member.setCity(request.getParameter("city"));
+                Service service = new Service();
+                service.insertMember(member);
 
-            } catch (MonException e) {
+            } catch (MyException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            destinationPage = "/index.jsp";
+            destinationPage = "/";
         }
 
         else {
             String messageErreur = "[" + actionName + "] n'est pas une action valide.";
             request.setAttribute(ERROR_KEY, messageErreur);
         }
+
+        if (GET_WORKS_ON_LOAN.equals(actionName)) {
+            try {
+
+                Service service = new Service();
+                request.setAttribute("worksOnLoan", service.getWorksOnLoan());
+
+            } catch (MyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            destinationPage = "/WEB-INF/jsp/works/getWorksOnLoan.jsp";
+        }
+
+        if (GET_WORKS_FOR_SALE.equals(actionName)) {
+            try {
+
+                Service service = new Service();
+                request.setAttribute("worksForSale", service.getWorksForSale());
+
+            } catch (MyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            destinationPage = "/WEB-INF/jsp/works/getWorksForSale.jsp";
+        }
+
         // Redirection vers la page jsp appropriee
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destinationPage);
         dispatcher.forward(request, response);
