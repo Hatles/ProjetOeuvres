@@ -1,11 +1,10 @@
 package projetoeuvres.dao;
 
 import projetoeuvres.meserreurs.MyException;
-import projetoeuvres.metier.Member;
-import projetoeuvres.metier.Owner;
-import projetoeuvres.metier.WorkForSale;
-import projetoeuvres.metier.WorkOnLoan;
+import projetoeuvres.metier.*;
 import projetoeuvres.persistance.DBAccess;
+
+import java.awt.print.Book;
 import java.util.*;
 
 
@@ -35,7 +34,7 @@ public class Service {
 	// Fabrique et renvoie un objet adh�rent contenant le r�sultat de la requ�te
 	// BDD
 	public Member getMember(int numero) throws MyException {
-		String mysql = "select * from adherent where numero_adherent=" + numero;
+		String mysql = "select * from adherent where id_adherent=" + numero;
 		List<Member> members = getMembers(mysql);
 		if (members.isEmpty())
 			return null;
@@ -110,6 +109,16 @@ public class Service {
 		}
 	}
 
+	public WorkForSale getWorkForSale(int id) throws MyException {
+		String mysql = "select * from oeuvrevente where id_oeuvrevente=" + id;
+		List<WorkForSale> worksForSale = getWorksForSale(mysql);
+		if (worksForSale.isEmpty())
+			return null;
+		else {
+			return worksForSale.get(0);
+		}
+	}
+
 	public List<WorkForSale> getWorksForSale() throws MyException {
 		String mysql = "select * from oeuvrevente";
 		return getWorksForSale(mysql);
@@ -181,13 +190,12 @@ public class Service {
 		}
 	}
 
-
 	public void insertWorkForSale(WorkForSale workForSale) throws MyException {
 		String mysql;
 
 		DBAccess dbAccess = DBAccess.getInstance();
 		try {
-			mysql = "insert into oeuvrevente  (titre_oeuvrevente,etat_oeuvrevente,prix_oeuvrevente,id_proprietaire)  " + "values ('"
+			mysql = "insert into oeuvrevente (titre_oeuvrevente,etat_oeuvrevente,prix_oeuvrevente,id_proprietaire)  " + "values ('"
 					+ workForSale.getTitle();
 			mysql += "'" + ",'" + workForSale.getState() + "','" + workForSale.getPrice() + "','" + workForSale.getOwner().getId() + "')";
 
@@ -197,5 +205,33 @@ public class Service {
 		}
 	}
 
+	public void insertWorkOnLoan(WorkOnLoan workOnLoan) throws MyException {
+		String mysql;
 
+		DBAccess dbAccess = DBAccess.getInstance();
+		try {
+			mysql = "insert into oeuvrepret (titre_oeuvrepret,id_proprietaire)  " + "values ('"
+					+ workOnLoan.getTitle();
+			mysql += "'" + ",'" + workOnLoan.getOwner().getId() + "')";
+
+			dbAccess.insert(mysql);
+		} catch (MyException e) {
+			throw e;
+		}
+	}
+
+	public void insertBooking(Booking booking) throws MyException {
+		String mysql;
+
+		DBAccess dbAccess = DBAccess.getInstance();
+		try {
+			mysql = "insert into reservation (id_oeuvrevente,id_adherent,date_reservation,statut)  " + "values ('"
+					+ booking.getWorkForSale().getId();
+			mysql += "'" + ",'" + booking.getMember().getId() + "','" + booking.getDate() + "','" + "en attente" + "')";
+
+			dbAccess.insert(mysql);
+		} catch (MyException e) {
+			throw e;
+		}
+	}
 }

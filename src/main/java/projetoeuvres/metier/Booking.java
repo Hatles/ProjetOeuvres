@@ -12,16 +12,16 @@ public class Booking implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Date date;
-	private Owner owner;
+	private Member member;
 	private WorkForSale workForSale;
 
 	public Booking() {
 	}
 
-	public Booking(Date date, Owner owner, WorkForSale workForSale) {
+	public Booking(Date date, Member member, WorkForSale workForSale) {
 		super();
 		this.date = date;
-		this.owner = owner;
+		this.member = member;
 		this.workForSale = workForSale;
 	}
 
@@ -33,12 +33,12 @@ public class Booking implements Serializable {
 		this.date = date;
 	}
 
-	public Owner getOwner() {
-		return this.owner;
+	public Member getMember() {
+		return this.member;
 	}
 
-	public void setOwner(Owner owner) {
-		this.owner = owner;
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
 	public WorkForSale getWorkForSale() {

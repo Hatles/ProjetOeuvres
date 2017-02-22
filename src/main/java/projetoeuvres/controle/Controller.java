@@ -2,8 +2,11 @@ package projetoeuvres.controle;
 
 import projetoeuvres.dao.Service;
 import projetoeuvres.meserreurs.MyException;
+import projetoeuvres.metier.Booking;
 import projetoeuvres.metier.Member;
 import projetoeuvres.metier.WorkForSale;
+import projetoeuvres.metier.WorkOnLoan;
+import projetoeuvres.utilitaires.FonctionsUtiles;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by kifkif on 08/02/2017.
@@ -27,6 +31,10 @@ public class Controller extends HttpServlet {
     private static final String GET_WORKS_FOR_SALE = "getWorksForSale";
     private static final String ADD_WORk_FOR_SALE = "addWorkForSale";
     private static final String INSERT_WORk_FOR_SALE = "insertWorkForSale";
+    private static final String ADD_WORk_ON_LOAN = "addWorkOnLoan";
+    private static final String INSERT_WORk_ON_LOAN= "insertWorkOnLoan";
+    private static final String BOOK_WORK = "bookWork";
+    private static final String INSERT_BOOKING= "insertBooking";
     private static final String ERROR_KEY = "messageErreur";
     private static final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
 
@@ -143,12 +151,74 @@ public class Controller extends HttpServlet {
         } else if (INSERT_WORk_FOR_SALE.equals(actionName)) {
             try {
                 Service service = new Service();
-                WorkForSale WorkForSale = new WorkForSale();
-                WorkForSale.setTitle(request.getParameter("title"));
-                WorkForSale.setState(request.getParameter("state"));
-                WorkForSale.setPrice(Float.parseFloat(request.getParameter("price")));
-                WorkForSale.setOwner(service.getOwner(Integer.parseInt(request.getParameter("owner"))));
-                service.insertWorkForSale(WorkForSale);
+                WorkForSale workForSale = new WorkForSale();
+                workForSale.setTitle(request.getParameter("title"));
+                workForSale.setState(request.getParameter("state"));
+                workForSale.setPrice(Float.parseFloat(request.getParameter("price")));
+                workForSale.setOwner(service.getOwner(Integer.parseInt(request.getParameter("owner"))));
+                service.insertWorkForSale(workForSale);
+
+            } catch (MyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            destinationPage = "/";
+        }
+
+        else {
+            String messageErreur = "[" + actionName + "] n'est pas une action valide.";
+            request.setAttribute(ERROR_KEY, messageErreur);
+        }
+
+        if (ADD_WORk_ON_LOAN.equals(actionName)) {
+            try {
+
+                Service service = new Service();
+                request.setAttribute("owners", service.getOwners());
+
+            } catch (MyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            destinationPage = "/WEB-INF/jsp/works/addWorkOnLoan.jsp";
+        } else if (INSERT_WORk_ON_LOAN.equals(actionName)) {
+            try {
+                Service service = new Service();
+                WorkOnLoan workOnLoan = new WorkOnLoan();
+                workOnLoan.setTitle(request.getParameter("title"));
+                workOnLoan.setOwner(service.getOwner(Integer.parseInt(request.getParameter("owner"))));
+                service.insertWorkOnLoan(workOnLoan);
+
+            } catch (MyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            destinationPage = "/";
+        }
+
+        else {
+            String messageErreur = "[" + actionName + "] n'est pas une action valide.";
+            request.setAttribute(ERROR_KEY, messageErreur);
+        }
+
+        if (BOOK_WORK.equals(actionName)) {
+            try {
+                Service service = new Service();
+                request.setAttribute("members", service.getMembers());
+                request.setAttribute("work", service.getWorkForSale(Integer.parseInt(request.getParameter("id"))));
+            } catch (MyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            destinationPage = "/WEB-INF/jsp/works/bookWork.jsp";
+        } else if (INSERT_BOOKING.equals(actionName)) {
+            try {
+                Service service = new Service();
+                Booking booking = new Booking();
+                booking.setDate(java.sql.Date.valueOf(request.getParameter("date")));
+                booking.setMember(service.getMember(Integer.parseInt(request.getParameter("member"))));
+                booking.setWorkForSale(service.getWorkForSale(Integer.parseInt(request.getParameter("workId"))));
+                service.insertBooking(booking);
 
             } catch (MyException e) {
                 // TODO Auto-generated catch block

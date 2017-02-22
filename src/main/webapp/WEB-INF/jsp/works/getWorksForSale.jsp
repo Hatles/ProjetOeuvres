@@ -37,7 +37,7 @@
                                 <td>${item.price}</td>
                                 <td>${item.state}</td>
                                 <td>${item.owner.name} ${item.owner.firstName}</td>
-                                <td></td>
+                                <td><a href="Controller?action=bookWork&id=${item.id}">Réserver</a></td>
                             </tr>
                         </c:forEach>
                         </tbody>
