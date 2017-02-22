@@ -29,7 +29,7 @@
                 <!-- /input-group -->
             </li>
             <li>
-                <a href=""><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-users fa-fw"></i> Adhérents<span class="fa arrow"></span></a>
@@ -47,13 +47,26 @@
                 <a href="#"><i class="fa fa-picture-o fa-fw"></i> Oeuvres<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="Controller?action=getWorksOnLoan">Liste des Oeuvres en prêt</a>
+                        <a href="#">Oeuvres en prêt</a>
+                        <ul class="nav nav-third-level">
+                            <li>
+                                <a href="Controller?action=getWorksOnLoan">Liste des Oeuvres en prêt</a>
+                            </li>
+                            <li>
+                                <a href="Controller?action=addWorkOnLoan">Ajouter une oeuvre en prêt</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="Controller?action=getWorksForSale">Liste des Oeuvres en vente</a>
-                    </li>
-                    <li>
-                        <a href="Controller?action=addWorkForSale">Ajouter une oeuvre à vendre</a>
+                        <a href="#">Oeuvres en vente</a>
+                        <ul class="nav nav-third-level">
+                            <li>
+                                <a href="Controller?action=getWorksForSale">Liste des Oeuvres en vente</a>
+                            </li>
+                            <li>
+                                <a href="Controller?action=addWorkForSale">Ajouter une oeuvre à vendre</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
