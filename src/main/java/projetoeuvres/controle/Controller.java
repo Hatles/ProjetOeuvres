@@ -140,6 +140,7 @@ public class Controller extends HttpServlet {
             try {
                 Service service = new Service();
                 WorkForSale workForSale = new WorkForSale();
+                workForSale.setId(Integer.parseInt(request.getParameter("id")));
                 workForSale.setTitle(request.getParameter("title"));
                 workForSale.setState("L");
                 workForSale.setPrice(Float.parseFloat(request.getParameter("price")));
@@ -163,14 +164,27 @@ public class Controller extends HttpServlet {
                 Service service = new Service();
                 request.setAttribute("owners", service.getOwners());
                 WorkForSale workForSale = service.getWorkForSale(Integer.parseInt(request.getParameter("id")));
+                request.setAttribute("id", workForSale.getId());
                 request.setAttribute("title", workForSale.getTitle());
                 request.setAttribute("price", workForSale.getPrice());
                 request.setAttribute("owner", workForSale.getOwner().getId());
+                request.setAttribute("edit", true);
                 destinationPage = "/WEB-INF/jsp/works/addWorkForSale.jsp";
             }catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 destinationPage = getWorksForSale(request,"Cette oeuvre n'existe pas");
+            }
+        }else if (DELETE_WORk_FOR_SALE.equals(actionName)) {
+            try {
+
+                Service service = new Service();
+                WorkForSale workForSale = service.getWorkForSale(Integer.parseInt(request.getParameter("id")));
+                service.removeWorkForSale(workForSale);
+                destinationPage = getWorksForSale(request);
+            } catch (Exception e) {
+                destinationPage = getWorksForSale(request,"Cette oeuvre n'existe pas");
+                e.printStackTrace();
             }
         }
         else {
@@ -178,22 +192,6 @@ public class Controller extends HttpServlet {
             request.setAttribute(ERROR_KEY, messageErreur);
         }
 
-            if (DELETE_WORk_FOR_SALE.equals(actionName)) {
-                try {
-
-                    Service service = new Service();
-                    WorkForSale workForSale = service.getWorkForSale(Integer.parseInt(request.getParameter("id")));
-                    service.removeWorkForSale(workForSale);
-                    destinationPage = getWorksForSale(request);
-                } catch (Exception e) {
-                    destinationPage = getWorksForSale(request,"Cette oeuvre n'existe pas");
-                    e.printStackTrace();
-                }
-            }
-            else {
-                String messageErreur = "[" + actionName + "] n'est pas une action valide.";
-                request.setAttribute(ERROR_KEY, messageErreur);
-            }
 
         if (ADD_WORk_ON_LOAN.equals(actionName)) {
             try {
@@ -262,6 +260,7 @@ public class Controller extends HttpServlet {
                 Service service = new Service();
                 Booking booking = service.getBooking(Integer.parseInt(request.getParameter("idWork")),Integer.parseInt(request.getParameter("idMember")));
                 booking.setStatus("confirmee");
+                service.updateBooking(booking);
                 destinationPage = getWorksForSale(request);
             } catch (Exception e) {
                 // TODO Auto-generated catch block

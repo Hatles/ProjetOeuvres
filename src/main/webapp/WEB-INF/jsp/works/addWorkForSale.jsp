@@ -21,6 +21,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <form role="form" name='identification' method="post" action="Controller?action=insertWorkForSale" onsubmit="return teste()">
+                                    <input class="form-control hidden" type="text" name="id" value="${id}" id ="id" >
                                     <div class="form-group">
                                         <label>Nom de l'oeuvre</label>
                                         <input class="form-control" placeholder="Enter text" type="text" name="title" value="${title}" id ="title" required>

@@ -191,15 +191,26 @@ public class Service {
 	}
 
 	public void insertWorkForSale(WorkForSale workForSale) throws MyException {
+
 		String mysql;
 
 		DBAccess dbAccess = DBAccess.getInstance();
 		try {
-			mysql = "insert into oeuvrevente (titre_oeuvrevente,etat_oeuvrevente,prix_oeuvrevente,id_proprietaire)  " + "values ('"
-					+ workForSale.getTitle();
-			mysql += "'" + ",'" + workForSale.getState() + "','" + workForSale.getPrice() + "','" + workForSale.getOwner().getId() + "')";
+			if(workForSale.getId()!=0) {
+				mysql = "update oeuvrevente set titre_oeuvrevente='"+workForSale.getTitle()+
+						"', etat_oeuvrevente='"+workForSale.getState()+
+						"', prix_oeuvrevente='"+workForSale.getPrice()+
+						"', id_proprietaire='"+workForSale.getOwner().getId()+
+						"') where id_oeuvrevente=" + workForSale.getId();
 
-			dbAccess.insert(mysql);
+				dbAccess.execute(mysql);
+			}else{
+				mysql = "insert into oeuvrevente (titre_oeuvrevente,etat_oeuvrevente,prix_oeuvrevente,id_proprietaire)  " + "values ('"
+						+ workForSale.getTitle();
+				mysql += "'" + ",'" + workForSale.getState() + "','" + workForSale.getPrice() + "','" + workForSale.getOwner().getId() + "')";
+
+				dbAccess.insert(mysql);
+			}
 		} catch (MyException e) {
 			throw e;
 		}
@@ -255,7 +266,7 @@ public class Service {
 	}
 
     public Booking getBooking(int idWork, int idMember) throws MyException {
-        String mysql = "select * from reservation where id_oeuvrevente="+ idWork+" id_adherent="+ idMember;
+        String mysql = "select * from reservation where id_oeuvrevente="+ idWork+" and id_adherent="+ idMember;
         List<Booking> bookings = getBookings(mysql);
         if (bookings.isEmpty())
             return null;
@@ -293,6 +304,23 @@ public class Service {
 			return bookings;
 		} catch (Exception exc) {
 			throw new MyException(exc.getMessage(), "systeme");
+		}
+	}
+
+	public void updateBooking(Booking booking) throws MyException {
+		String mysql;
+
+		DBAccess dbAccess = DBAccess.getInstance();
+		try {
+			mysql = "update into reservation (date_reservation,statut) values ("+booking.getDate()+","+booking.getStatus()+") where id_oeuvrevente="+booking.getWorkForSale().getId()+
+					" and id_adherent="+booking.getMember().getId();
+			mysql = "update reservation set date_reservation='"+booking.getDate()+
+					"', statut='"+booking.getStatus()+
+					"') where id_oeuvrevente="+booking.getWorkForSale().getId()+
+					" and id_adherent="+booking.getMember().getId();
+			dbAccess.execute(mysql);
+		} catch (MyException e) {
+			throw e;
 		}
 	}
 }

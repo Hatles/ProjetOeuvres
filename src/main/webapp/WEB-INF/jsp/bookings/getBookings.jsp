@@ -24,6 +24,7 @@
                             <th>Titre</th>
                             <th>Adhérent</th>
                             <th>Date</th>
+                            <th>Gestion</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -32,6 +33,12 @@
                                 <td>${item.workForSale.title}</td>
                                 <td>${item.member.firstName} ${item.member.name}</td>
                                 <td>${item.date}</td>
+                                <td><c:if test="${item.status=='en attente'}">
+                                    <a class="btn btn-primary" role="button" href="Controller?action=confirmBooking&idWork=${item.workForSale.id}&idMember=${item.member.id}">
+                                        <span class="fa fa-validate"></span>
+                                        Confirmer
+                                    </a>
+                                </c:if></td>
                             </tr>
                         </c:forEach>
                         </tbody>
