@@ -234,4 +234,23 @@ public class Service {
 			throw e;
 		}
 	}
+
+	public void removeWorkForSale(WorkForSale workForSale) throws MyException {
+		String mysql;
+
+		DBAccess dbAccess = DBAccess.getInstance();
+		try {
+			mysql = "delete from reservation where id_oeuvrevente="
+					+ workForSale.getId();
+
+			dbAccess.execute(mysql);
+
+			mysql = "delete from oeuvrevente where id_oeuvrevente="
+					+ workForSale.getId();
+
+			dbAccess.execute(mysql);
+		} catch (MyException e) {
+			throw e;
+		}
+	}
 }

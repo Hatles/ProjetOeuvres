@@ -24,7 +24,6 @@
                             <th>#</th>
                             <th>Titre</th>
                             <th>Prix</th>
-                            <th>Etat</th>
                             <th>Propriétaire</th>
                             <th>Gestion</th>
                         </tr>
@@ -35,9 +34,31 @@
                                 <td>${item.id}</td>
                                 <td>${item.title}</td>
                                 <td>${item.price}</td>
-                                <td>${item.state}</td>
                                 <td>${item.owner.name} ${item.owner.firstName}</td>
-                                <td><a href="Controller?action=bookWork&id=${item.id}">Réserver</a></td>
+                                <td>
+                                        <c:choose>
+                                    <c:when test="${item.state=='L'}">
+                                    <a href="Controller?action=bookWork&id=${item.id}" class="btn btn-primary" role="button">
+                                        <span class="fa fa-calendar"></span>
+                                        Réserver
+                                    </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a class="btn btn-primary" role="button" disabled>
+                                            <span class="fa fa-calendar"></span>
+                                            Réserver
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
+                                        <a class="btn btn-success" role="button" href="Controller?action=editWorkForSale&id=${item.id}">
+                                            <span class="fa fa-edit"></span>
+                                            Modifier
+                                        </a>
+                                    <a class="btn btn-danger" role="button" href="Controller?action=deleteWorkForSale&id=${item.id}">
+                                        <span class="fa fa-edit"></span>
+                                        Supprimer
+                                    </a>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -45,7 +66,28 @@
                 </div>
                 <!-- /.table-responsive -->
             </div>
+            <div class="modal fade" id="errorModal" >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <p>${error}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- /.panel-body -->
         </div>
+
     </jsp:body>
 </t:generic_page>
+
+<script>
+    $(function () {
+        <c:if test="${error!=null}">
+            $('#errorModal').modal('show')
+        </c:if>
+    });
+</script>

@@ -23,26 +23,24 @@
                                 <form role="form" name='identification' method="post" action="Controller?action=insertWorkForSale" onsubmit="return teste()">
                                     <div class="form-group">
                                         <label>Nom de l'oeuvre</label>
-                                        <input class="form-control" placeholder="Enter text" type="text" name="title" value="" id ="title" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Etat</label>
-                                        <div class="radio">
-                                            <label><input type="radio" name="state" value="L" checked>L</label>
-                                        </div>
-                                        <div class="radio">
-                                            <label><input type="radio" name="state" value="R">R</label>
-                                        </div>
+                                        <input class="form-control" placeholder="Enter text" type="text" name="title" value="${title}" id ="title" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Prix</label>
-                                        <input class="form-control" placeholder="Entrez le prix" type="number" name="price" value="" id ="price" required>
+                                        <input class="form-control" placeholder="Entrez le prix" type="number" name="price" value="${price}" id ="price" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="owner">Propriétaire</label>
                                         <select class="form-control" name="owner" id="owner">
                                             <c:forEach items="${owners}" var="item">
-                                                    <option value="${item.id}">${item.firstName} ${item.name}</option>
+                                                <c:choose>
+                                                    <c:when test="${item.id==owner}">
+                                                        <option value="${item.id}" selected>${item.firstName} ${item.name}</option>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <option value="${item.id}">${item.firstName} ${item.name}</option>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:forEach>
                                         </select>
                                     </div>
