@@ -14,15 +14,17 @@ public class Booking implements Serializable {
 	private Date date;
 	private Member member;
 	private WorkForSale workForSale;
+	private String status;
 
 	public Booking() {
 	}
 
-	public Booking(Date date, Member member, WorkForSale workForSale) {
+	public Booking(Date date, Member member, WorkForSale workForSale, String status) {
 		super();
 		this.date = date;
 		this.member = member;
 		this.workForSale = workForSale;
+		this.status = status;
 	}
 
 	public Date getDate() {
@@ -49,4 +51,11 @@ public class Booking implements Serializable {
 		this.workForSale = workForSale;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

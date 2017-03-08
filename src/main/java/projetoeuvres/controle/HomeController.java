@@ -1,5 +1,8 @@
 package projetoeuvres.controle;
 
+import projetoeuvres.dao.Service;
+import projetoeuvres.meserreurs.MyException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +25,16 @@ public class HomeController extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Service service = new Service();
+        try {
+            request.setAttribute("members", service.getMembers().size());
+            request.setAttribute("workForSale", service.getWorksForSale().size());
+            request.setAttribute("workOnLoan", service.getWorksOnLoan().size());
+            request.setAttribute("waitingBooking", service.getBookings(true).size());
+
+        } catch (MyException e) {
+            e.printStackTrace();
+        }
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp");
         dispatcher.forward(request, response);
     }

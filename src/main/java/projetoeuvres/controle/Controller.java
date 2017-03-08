@@ -35,6 +35,8 @@ public class Controller extends HttpServlet {
     private static final String INSERT_WORk_FOR_SALE = "insertWorkForSale";
     private static final String ADD_WORk_ON_LOAN = "addWorkOnLoan";
     private static final String INSERT_WORk_ON_LOAN= "insertWorkOnLoan";
+    private static final String BOOKINGS= "getBookings";
+    private static final String CONFIRM_BOOKING= "confirmBooking";
     private static final String BOOK_WORK = "bookWork";
     private static final String INSERT_BOOKING= "insertBooking";
     private static final String ERROR_KEY = "messageErreur";
@@ -253,6 +255,20 @@ public class Controller extends HttpServlet {
             request.setAttribute(ERROR_KEY, messageErreur);
         }
 
+        if (BOOKINGS.equals(actionName)) {
+            destinationPage = getBookings(request);
+        } else if (CONFIRM_BOOKING.equals(actionName)) {
+            try {
+                Service service = new Service();
+                Booking booking = service.getBooking(Integer.parseInt(request.getParameter("idWork")),Integer.parseInt(request.getParameter("idMember")));
+                booking.setStatus("confirmee");
+                destinationPage = getWorksForSale(request);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
         // Redirection vers la page jsp appropriee
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destinationPage);
         dispatcher.forward(request, response);
@@ -278,4 +294,17 @@ public class Controller extends HttpServlet {
         }
         return ERROR_PAGE;
     }
+
+    public String getBookings(HttpServletRequest request){
+        try {
+            Service service = new Service();
+            request.setAttribute("bookings", service.getBookings(false));
+            return  "/WEB-INF/jsp/bookings/getBookings.jsp";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ERROR_PAGE;
+    }
+
+
 }

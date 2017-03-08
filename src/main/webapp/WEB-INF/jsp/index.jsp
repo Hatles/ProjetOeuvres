@@ -26,7 +26,7 @@
 								<i class="fa fa-users fa-5x"></i>
 							</div>
 							<div class="col-xs-9 text-right">
-								<div class="huge">26</div>
+								<div class="huge">${members}</div>
 								<div>Adhérents</div>
 							</div>
 						</div>
@@ -49,12 +49,12 @@
 								<i class="fa fa-picture-o fa-5x"></i>
 							</div>
 							<div class="col-xs-9 text-right">
-								<div class="huge">12</div>
-								<div>Oeuvres</div>
+								<div class="huge">${workForSale}</div>
+								<div>Oeuvres en vente</div>
 							</div>
 						</div>
 					</div>
-					<a href="#">
+					<a href="Controller?action=getWorksForSale">
 						<div class="panel-footer">
 							<span class="pull-left">Voir Détails</span>
 							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -69,15 +69,15 @@
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-xs-3">
-								<i class="fa fa-shopping-cart fa-5x"></i>
+								<i class="fa fa-file-image-o fa-5x"></i>
 							</div>
 							<div class="col-xs-9 text-right">
-								<div class="huge">124</div>
-								<div>New Orders!</div>
+								<div class="huge">${workOnLoan}</div>
+								<div>Oeuvres en prêt</div>
 							</div>
 						</div>
 					</div>
-					<a href="#">
+					<a href="Controller?action=getWorksOnLoan">
 						<div class="panel-footer">
 							<span class="pull-left">View Details</span>
 							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -87,28 +87,28 @@
 				</div>
 			</div>
 				<%--fsefsef--%>
-			<div class="col-lg-3 col-md-6">
-				<div class="panel panel-red">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="fa fa-support fa-5x"></i>
+					<div class="col-lg-3 col-md-6">
+						<div class="panel panel-red">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="fa fa-file-image-o fa-5x"></i>
+									</div>
+									<div class="col-xs-9 text-right">
+										<div class="huge">${waitingBooking}</div>
+										<div>Réservations en attente</div>
+									</div>
+								</div>
 							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">13</div>
-								<div>Support Tickets!</div>
-							</div>
+							<a href="Controller?action=getBookings">
+								<div class="panel-footer">
+									<span class="pull-left">View Details</span>
+									<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>
 						</div>
 					</div>
-					<a href="#">
-						<div class="panel-footer">
-							<span class="pull-left">View Details</span>
-							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-							<div class="clearfix"></div>
-						</div>
-					</a>
-				</div>
-			</div>
 		</div>
 
 	</jsp:body>

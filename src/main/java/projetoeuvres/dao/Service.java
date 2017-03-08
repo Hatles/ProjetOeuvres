@@ -253,4 +253,46 @@ public class Service {
 			throw e;
 		}
 	}
+
+    public Booking getBooking(int idWork, int idMember) throws MyException {
+        String mysql = "select * from reservation where id_oeuvrevente="+ idWork+" id_adherent="+ idMember;
+        List<Booking> bookings = getBookings(mysql);
+        if (bookings.isEmpty())
+            return null;
+        else {
+            return bookings.get(0);
+        }
+    }
+
+	public List<Booking> getBookings(boolean waiting) throws MyException {
+		String mysql = "select * from reservation";
+		if(waiting)
+			mysql += " where statut='en attente'";
+		return getBookings(mysql);
+	}
+
+	private List<Booking> getBookings(String mysql) throws MyException {
+		List<Object> rs;
+		List<Booking> bookings = new ArrayList<Booking>();
+		int index = 0;
+		try {
+			rs = DBAccess.read(mysql);
+			while (index < rs.size()) {
+				// On cr�e un stage
+				Booking booking = new Booking();
+				// il faut redecouper la liste pour retrouver les lignes
+                booking.setWorkForSale(getWorkForSale(Integer.parseInt(rs.get(index + 0).toString())));
+                booking.setMember(getMember(Integer.parseInt(rs.get(index + 1).toString())));
+                booking.setDate(java.sql.Date.valueOf(rs.get(index + 2).toString()));
+                booking.setStatus(rs.get(index + 3).toString());
+				// On incr�mente tous les 3 champs
+				index = index + 4;
+				bookings.add(booking);
+			}
+
+			return bookings;
+		} catch (Exception exc) {
+			throw new MyException(exc.getMessage(), "systeme");
+		}
+	}
 }
