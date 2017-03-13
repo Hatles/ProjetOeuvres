@@ -201,7 +201,7 @@ public class Service {
 						"', etat_oeuvrevente='"+workForSale.getState()+
 						"', prix_oeuvrevente='"+workForSale.getPrice()+
 						"', id_proprietaire='"+workForSale.getOwner().getId()+
-						"') where id_oeuvrevente=" + workForSale.getId();
+						"' where id_oeuvrevente=" + workForSale.getId();
 
 				dbAccess.execute(mysql);
 			}else{
@@ -312,11 +312,9 @@ public class Service {
 
 		DBAccess dbAccess = DBAccess.getInstance();
 		try {
-			mysql = "update into reservation (date_reservation,statut) values ("+booking.getDate()+","+booking.getStatus()+") where id_oeuvrevente="+booking.getWorkForSale().getId()+
-					" and id_adherent="+booking.getMember().getId();
 			mysql = "update reservation set date_reservation='"+booking.getDate()+
 					"', statut='"+booking.getStatus()+
-					"') where id_oeuvrevente="+booking.getWorkForSale().getId()+
+					"' where id_oeuvrevente="+booking.getWorkForSale().getId()+
 					" and id_adherent="+booking.getMember().getId();
 			dbAccess.execute(mysql);
 		} catch (MyException e) {

@@ -239,8 +239,10 @@ public class Controller extends HttpServlet {
                 booking.setDate(java.sql.Date.valueOf(request.getParameter("date")));
                 booking.setMember(service.getMember(Integer.parseInt(request.getParameter("member"))));
                 WorkForSale workForSale = service.getWorkForSale(Integer.parseInt(request.getParameter("workId")));
+                workForSale.setState("R");
                 booking.setWorkForSale(workForSale);
                 service.insertBooking(booking);
+                service.insertWorkForSale(workForSale);
                 destinationPage = getWorksForSale(request);
             } catch (Exception e) {
                 // TODO Auto-generated catch block

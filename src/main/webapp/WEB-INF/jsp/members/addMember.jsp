@@ -32,7 +32,7 @@
                                         <input class="form-control" placeholder="Enter text" type="text" name="city" value="" id ="city">
                                     </div>
                                     <div class="form-group">
-                                        <input class="btn btn-block btn-primary" type="submit" name="bt" value="Ajouter" >
+                                        <input class="btn btn-block btn-primary" type="submit" name="bt" value="Valider" >
                                     </div>
 
                                 </form>

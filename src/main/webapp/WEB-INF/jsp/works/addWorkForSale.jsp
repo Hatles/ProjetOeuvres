@@ -28,7 +28,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Prix</label>
-                                        <input class="form-control" placeholder="Entrez le prix" type="number" name="price" value="${price}" id ="price" required>
+                                        <input class="form-control" placeholder="Entrez le prix" type="number" step="any" name="price" value="${price}" id ="price" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="owner">Propriétaire</label>
@@ -46,7 +46,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <input class="btn btn-block btn-primary" type="submit" name="bt" value="Ajouter" >
+                                        <input class="btn btn-block btn-primary" type="submit" name="bt" value="Valider" >
                                     </div>
                                 </form>
                             </div>
