@@ -8,14 +8,28 @@
 
 <t:generic_page>
     <jsp:attribute name="title">
-      Ajouter une oeuvre à vendre
+        <c:choose>
+            <c:when test="${edit==true}">
+                Modifier une oeuvre à vendre
+            </c:when>
+            <c:otherwise>
+                Ajouter une oeuvre à vendre
+            </c:otherwise>
+        </c:choose>
     </jsp:attribute>
     <jsp:body>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Ajouter une oeuvre à vendre
+                        <c:choose>
+                            <c:when test="${edit==true}">
+                                Modifier une oeuvre à vendre
+                            </c:when>
+                            <c:otherwise>
+                                Ajouter une oeuvre à vendre
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="panel-body">
                         <div class="row">

@@ -36,20 +36,20 @@
                                 <td>${item.price}</td>
                                 <td>${item.owner.name} ${item.owner.firstName}</td>
                                 <td>
-                                        <c:choose>
-                                    <c:when test="${item.state=='L'}">
-                                    <a href="Controller?action=bookWork&id=${item.id}" class="btn btn-primary" role="button">
-                                        <span class="fa fa-calendar"></span>
-                                        Réserver
-                                    </a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a class="btn btn-primary" role="button" disabled>
+                                    <c:choose>
+                                        <c:when test="${item.state=='L'}">
+                                        <a href="Controller?action=bookWork&id=${item.id}" class="btn btn-primary" role="button">
                                             <span class="fa fa-calendar"></span>
                                             Réserver
                                         </a>
-                                    </c:otherwise>
-                                </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="btn btn-primary" role="button" disabled>
+                                                <span class="fa fa-calendar"></span>
+                                                Réserver
+                                            </a>
+                                        </c:otherwise>
+                                    </c:choose>
                                         <a class="btn btn-success" role="button" href="Controller?action=editWorkForSale&id=${item.id}">
                                             <span class="fa fa-edit"></span>
                                             Modifier

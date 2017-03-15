@@ -6,6 +6,7 @@ import projetoeuvres.metier.Booking;
 import projetoeuvres.metier.Member;
 import projetoeuvres.metier.WorkForSale;
 import projetoeuvres.metier.WorkOnLoan;
+import projetoeuvres.metier.Owner;
 import projetoeuvres.utilitaires.FonctionsUtiles;
 
 import javax.servlet.RequestDispatcher;
@@ -23,22 +24,31 @@ import java.util.Date;
 @WebServlet(name = "Controller", urlPatterns = "/Controller")
 public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
     private static final String ACTION_TYPE = "action";
     private static final String GET_MEMBERS = "getMembers";
     private static final String ADD_MEMBER = "addMember";
     private static final String INSERT_MEMBER = "insertMember";
-    private static final String GET_WORKS_ON_LOAN = "getWorksOnLoan";
+
+    private static final String GET_OWNERS = "getOwners";
+    private static final String ADD_OWNER = "addOwner";
+    private static final String INSERT_OWNER= "insertOwner";
+
     private static final String GET_WORKS_FOR_SALE = "getWorksForSale";
     private static final String ADD_WORk_FOR_SALE = "addWorkForSale";
     private static final String EDIT_WORk_FOR_SALE = "editWorkForSale";
     private static final String DELETE_WORk_FOR_SALE = "deleteWorkForSale";
     private static final String INSERT_WORk_FOR_SALE = "insertWorkForSale";
+
+    private static final String GET_WORKS_ON_LOAN = "getWorksOnLoan";
     private static final String ADD_WORk_ON_LOAN = "addWorkOnLoan";
     private static final String INSERT_WORk_ON_LOAN= "insertWorkOnLoan";
+
     private static final String BOOKINGS= "getBookings";
     private static final String CONFIRM_BOOKING= "confirmBooking";
     private static final String BOOK_WORK = "bookWork";
     private static final String INSERT_BOOKING= "insertBooking";
+
     private static final String ERROR_KEY = "messageErreur";
     private static final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
 
@@ -88,7 +98,6 @@ public class Controller extends HttpServlet {
         }
 
         if (ADD_MEMBER.equals(actionName)) {
-
             destinationPage = "/WEB-INF/jsp/members/addMember.jsp";
         } else if (INSERT_MEMBER.equals(actionName)) {
             try {
@@ -98,6 +107,38 @@ public class Controller extends HttpServlet {
                 member.setCity(request.getParameter("city"));
                 Service service = new Service();
                 service.insertMember(member);
+                destinationPage = "/";
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        else {
+            String messageErreur = "[" + actionName + "] n'est pas une action valide.";
+            request.setAttribute(ERROR_KEY, messageErreur);
+        }
+
+        if (GET_OWNERS.equals(actionName)) {
+            try {
+                Service service = new Service();
+                request.setAttribute("owners", service.getOwners());
+                destinationPage = "/WEB-INF/jsp/owners/getOwners.jsp";
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if (ADD_OWNER.equals(actionName)) {
+            destinationPage = "/WEB-INF/jsp/owners/addOwner.jsp";
+        } else if (INSERT_OWNER.equals(actionName)) {
+            try {
+                Owner owner = new Owner();
+                owner.setName(request.getParameter("name"));
+                owner.setFirstName(request.getParameter("firstname"));
+                Service service = new Service();
+                service.insertOwner(owner);
                 destinationPage = "/";
             } catch (Exception e) {
                 // TODO Auto-generated catch block

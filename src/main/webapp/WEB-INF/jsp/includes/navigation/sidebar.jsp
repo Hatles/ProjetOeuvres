@@ -44,6 +44,18 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
+                <a href="#"><i class="fa fa-user-circle fa-fw"></i> Propriétaires<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="Controller?action=getOwners">Liste des Propriétaires</a>
+                    </li>
+                    <li>
+                        <a href="Controller?action=addOwner">Ajouter un Propriétaire</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
                 <a href="#"><i class="fa fa-picture-o fa-fw"></i> Oeuvres<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
@@ -65,6 +77,9 @@
                             </li>
                             <li>
                                 <a href="Controller?action=addWorkForSale">Ajouter une oeuvre à vendre</a>
+                            </li>
+                            <li>
+                                <a href="Controller?action=getBookings">Réservations</a>
                             </li>
                         </ul>
                     </li>

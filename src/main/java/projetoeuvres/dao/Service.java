@@ -150,6 +150,21 @@ public class Service {
 		}
 	}
 
+	public void insertOwner(Owner owner) throws MyException {
+		String mysql;
+
+		DBAccess dbAccess = DBAccess.getInstance();
+		try {
+			mysql = "insert into proprietaire  (nom_proprietaire,prenom_proprietaire)  " + "values ('"
+					+ owner.getName();
+			mysql += "'" + ",'" + owner.getFirstName() + "')";
+
+			dbAccess.insert(mysql);
+		} catch (MyException e) {
+			throw e;
+		}
+	}
+
 	public Owner getOwner(int id) throws MyException {
 		String mysql = "select * from proprietaire where id_proprietaire="+ id;
 		List<Owner> owners = getOwners(mysql);

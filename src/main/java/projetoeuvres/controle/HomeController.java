@@ -28,6 +28,7 @@ public class HomeController extends HttpServlet {
         Service service = new Service();
         try {
             request.setAttribute("members", service.getMembers().size());
+            request.setAttribute("owners", service.getOwners().size());
             request.setAttribute("workForSale", service.getWorksForSale().size());
             request.setAttribute("workOnLoan", service.getWorksOnLoan().size());
             request.setAttribute("waitingBooking", service.getBookings(true).size());
